@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="https://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{base}">
+
+<head>
+    <title>Make Reservation</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <p>
+        <a th:href="@{/reservations}">Back to reservations</a>
+    </p>
+    <h1>Make Reservation</h1>
+</header>
+
+<section layout:fragment="main">
+
+    <!-- Logged-in user info -->
+    <div class="mb-4">
+        <a th:href="@{/profile}"
+           th:text="'Logged in as: ' + ${me.emailAddress()} + ' (' + ${me.type()} + ')'"></a>
+    </div>
+
+    <!-- Reservation form -->
+    <form th:action="@{/reservations/new}" method="post" th:object="${form}">
+
+        <!-- Select Room -->
+        <div class="mb-3">
+            <label for="roomId" class="form-label">Room</label>
+            <select id="roomId" th:field="*{roomId}" class="form-select" required>
+                <option value="" disabled selected>Select a room</option>
+                <option th:each="room : ${rooms}"
+                        th:value="${room.roomId}"
+                        th:text="'Room ' + ${room.roomId} +
+                             ' (Capacity: ' + ${room.capacity} +
+                             ', Open: ' + ${room.openingTime} +
+                             ' - ' + ${room.closingTime} + ')'"></option>
+            </select>
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('roomId')}" th:errors="*{roomId}"></div>
+        </div>
+
+        <!-- Reservation date & time -->
+        <div class="mb-3">
+            <label for="reservedFor" class="form-label">Reservation Date & Time</label>
+            <input type="datetime-local"
+                   id="reservedFor"
+                   th:field="*{reservedFor}"
+                   step="60"
+            class="form-control"
+            required />
+            <div class="text-danger small mt-1"
+                 th:if="${#fields.hasErrors('reservedFor')}"
+                 th:errors="*{reservedFor}"></div>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-primary">Create Reservation</button>
+        </div>
+    </form>
+
+</section>
+
+</body>
+</html>

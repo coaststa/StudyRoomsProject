@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="https://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{base}">
+
+<head>
+    <title>Rooms</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <h1>Rooms</h1>
+</header>
+
+<section layout:fragment="main">
+
+    <div class="mb-4">
+        <a th:href="@{/profile}" th:text="'Logged in as: ' + ${me.emailAddress()} + ' (' + ${me.type()} + ')'"></a>
+    </div>
+
+    <table class="table mb-4">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Capacity</th>
+            <th>Opening</th>
+            <th>Closing</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="r : ${rooms}">
+            <td>
+                <a th:href="@{|/rooms/${r.roomid()}|}" th:text="${r.roomid()}"></a>
+            </td>
+            <td th:text="${r.capacity()}"></td>
+            <td th:text="${r.openingtime()}"></td>
+            <td th:text="${r.closingtime()}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${me.type().name() == 'STAFF'}">
+        <a th:href="@{/rooms/new}">Make new room</a>
+    </div>
+
+</section>
+
+</body>
+</html>
