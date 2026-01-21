@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="https://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{base}">
+
+<head>
+    <title>Reserve</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <p>
+        <a th:href="@{/reservations}">Back to list</a>
+    </p>
+    <h1>Reservation</h1>
+</header>
+
+<section layout:fragment="main">
+
+    <div class="mb-4">
+        <a th:href="@{/profile}" th:text="'Logged in as: ' + ${me.emailAddress()} + ' (' + ${me.type()} + ')'"></a>
+    </div>
+
+    <ul class="mb-4">
+        <li>Status: <b th:text="${reservation.status()}"></b></li>
+        <li>Student: <b th:text="${reservation.student().fullName()}"></b></li>
+        <li>Queued at: <b th:text="${reservation.sent()}"></b></li>
+        <li>Reserved for: <b th:text="${reservation.reserve()}"></b></li>
+    </ul>
+
+    <div th:if="${reservation.status().name() == 'RESERVED'}">
+        <form th:action="@{'/reservations/' + ${reservation.id()} + '/cancel'}" method="post">
+            <button type="submit" class="btn btn-danger">Cancel Reservation</button>
+        </form>
+    </div>
+
+</section>
+
+</body>
+</html>

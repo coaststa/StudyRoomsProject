@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="https://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{base}">
+
+<head>
+    <title>Reservations</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <h1>Reservations</h1>
+</header>
+
+<section layout:fragment="main">
+
+    <div class="mb-4">
+        <a th:href="@{/profile}" th:text="'Logged in as: ' + ${me.emailAddress()} + ' (' + ${me.type()} + ')'"></a>
+    </div>
+
+    <table class="table mb-4">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Student</th>
+<!--            <th>Queued</th>-->
+            <th>Reserved</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="r : ${reservations}">
+            <td>
+                <a th:href="@{|/reservations/${r.id()}|}" th:text="${r.id()}"></a>
+            </td>
+            <td th:text="${r.status()}"></td>
+            <td th:text="${r.student().fullName()}"></td>
+<!--            <td th:text="${r.sent()}"></td>-->
+            <td th:text="${r.reserve()}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${me.type().name() == 'STUDENT'}">
+        <a th:href="@{/reservations/new}">Make new reservation</a>
+    </div>
+
+</section>
+
+</body>
+</html>

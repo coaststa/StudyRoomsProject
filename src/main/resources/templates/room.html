@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="https://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{base}">
+
+<head>
+    <title>Room</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <p>
+        <a th:href="@{/rooms}">Back to list</a>
+    </p>
+    <h1>Room</h1>
+</header>
+
+<section layout:fragment="main">
+
+    <div class="mb-4">
+        <a th:href="@{/profile}" th:text="'Logged in as: ' + ${me.emailAddress()} + ' (' + ${me.type()} + ')'"></a>
+    </div>
+
+    <ul class="mb-4">
+        <li>Id: <b th:text="${room.roomid()}"></b></li>
+        <li>Capacity: <b th:text="${room.capacity()}"></b></li>
+        <li>Opening time: <b th:text="${room.openingtime()}"></b></li>
+        <li>Closing time: <b th:text="${room.closingtime()}"></b></li>
+    </ul>
+
+    <ul class="list-group mb-4">
+        <li class="list-group-item">Id: <b th:text="${room.roomid()}"></b></li>
+        <li class="list-group-item">
+            Capacity: <b th:text="${room.capacity()}"></b>
+            <form th:action="@{'/rooms/' + ${room.roomid()} + '/changecap'}" method="post" class="d-inline ms-3">
+                <input type="number" name="cap" min="1" required>
+                <button type="submit" class="btn btn-sm btn-primary">Change</button>
+            </form>
+        </li>
+        <li class="list-group-item">
+            Opening Time: <b th:text="${room.openingtime()}"></b>
+            <form th:action="@{'/rooms/' + ${room.roomid()} + '/changeopeningtime'}" method="post" class="d-inline ms-3">
+                <input type="time" name="op" required>
+                <button type="submit" class="btn btn-sm btn-primary">Change</button>
+            </form>
+        </li>
+        <li class="list-group-item">
+            Closing Time: <b th:text="${room.closingtime()}"></b>
+            <form th:action="@{'/rooms/' + ${room.roomid()} + '/changeclosingtime'}" method="post" class="d-inline ms-3">
+                <input type="time" name="clos" required>
+                <button type="submit" class="btn btn-sm btn-primary">Change</button>
+            </form>
+        </li>
+    </ul>
+
+</section>
+
+</body>
+</html>
